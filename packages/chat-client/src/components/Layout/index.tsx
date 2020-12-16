@@ -2,37 +2,36 @@ import React from 'react'
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import io from 'socket.io-client';
+import { Message, sendMessage, receiveMessage } from '../Conversations/ConversationsSlice'
 import Nav from '../Nav'
 import ConversationList from '../Conversations'
 import FriendsList from '../FriendsList'
 import Search from '../Search'
+import { StoreState } from '@/store/reducers'
 import { useFetchFriends } from '../FriendsList/hooks'
-import { setSocket, removeSocket } from './reducer/action'
-import { sendMsgAction, receiveMsgAction } from '../Conversations/reducer/action'
 import './style'
 
 export default function Layout() {
   const dispatch = useDispatch()
-  const id = useSelector<StoreState, number>(state => state.user.id)
+  const id = useSelector((state: StoreState) => state.user.id)
   useFetchFriends()
   React.useEffect(() => {
-    const socket: SocketIOClient.Socket = io('/', {
+    window.socket = io('/', {
       port: '3333'
     });
-    socket.emit('init_link', {
+    window.socket.emit('init_link', {
       id
     })
-    socket.on('recv_msg',(data: Message)=>{
+    window.socket.on('recv_msg',(data: Message)=>{
       console.log('recv_msg',data)
-      let action = data.to_id == id ? receiveMsgAction : (data.from_id == id ? sendMsgAction : null)
+      let action = data.to_id == id ? receiveMessage : (data.from_id == id ? sendMessage : null)
       if (action) {
         dispatch(action(data))
       }
     })
-    dispatch(setSocket(socket));
     return () => {
-      socket.close();
-      dispatch(removeSocket());
+      (window.socket as SocketIOClient.Socket).close();
+      window.socket = null
     };
   }, [dispatch]);
   return  (

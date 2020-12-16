@@ -1,16 +1,18 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from "react-router-dom";
-import { updateCurrent } from '../Conversations/reducer/action'
+import { StoreState } from '@/store/reducers'
+import { Friends } from '@/components/FriendsList/FriendslistSlice'
+import { updateCurrent } from '../Conversations/ConversationsSlice'
 import { useFetchFriends } from './hooks'
 
 const FriendsList: React.FC = () => {
   useFetchFriends()
-  const history = useHistory();
+  const history = useHistory()
   const dispatch = useDispatch()
-  const id = useSelector<StoreState, number>(state => state.user.id)
-  const friends = useSelector<StoreState, Friends>(state => state.FrindsListStore)
-  const friendsList = Object.keys(friends).filter(f => f !== String(id))
+  const id = useSelector((state: StoreState) => state.user.id)
+  const friends = useSelector((state: StoreState) => state.friends)
+  const friendsList = Object.keys(friends).filter(f => f !== String(id)).sort((a, b) => friends[a].name.localeCompare(friends[b].name))
 
 
   return  (

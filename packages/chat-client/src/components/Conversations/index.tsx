@@ -1,29 +1,30 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { StoreState } from '@/store/reducers'
 import ConversationItem from './components/ConversationItem/ConversationItem'
 import MessageBox from './components/MessageBox'
-import { updateCurrent, receiveMsgAction, sendMsgAction } from './reducer/action'
+// import { updateCurrent, receiveMessage, sendMessage } from './reducer/action'
 
 export default function ConversationList() {
-  const current = useSelector<StoreState, number | string>(store => store.conversationStore.current)
-  const conversations = useSelector<StoreState, ConversationMap>(store => store.conversationStore.map, )
+  const current = useSelector((store: StoreState) => store.conversations.current)
+  const conversations = useSelector((store: StoreState) => store.conversations.map)
   const convList = Object.keys(conversations).sort((a, b) => conversations[b].last_timestamp - conversations[a].last_timestamp)
-  const dispatch = useDispatch() 
-  window['test'] = () => {dispatch(updateCurrent(2))}
-  window['test2'] = () => {dispatch(receiveMsgAction({
-    id: new Date().getTime(),
-    to_id: 101,
-    from_id: 103,
-    content: '我是张三',
-    create_time: new Date().getTime(),
-  }))}
-  window['test3'] = () => {dispatch(sendMsgAction({
-    id: new Date().getTime(),
-    to_id: 104,
-    from_id: 101,
-    content: '我是Boi',
-    create_time: new Date().getTime(),
-  }))}
+  // const dispatch = useDispatch() 
+  // window['test'] = () => {dispatch(updateCurrent(2))}
+  // window['test2'] = () => {dispatch(receiveMessage({
+  //   id: new Date().getTime(),
+  //   to_id: 101,
+  //   from_id: 103,
+  //   content: '我是张三',
+  //   create_time: new Date().getTime(),
+  // }))}
+  // window['test3'] = () => {dispatch(sendMessage({
+  //   id: new Date().getTime(),
+  //   to_id: 104,
+  //   from_id: 101,
+  //   content: '我是Boi',
+  //   create_time: new Date().getTime(),
+  // }))}
 
   console.log('render-ConversationList',conversations)
   return  (
@@ -43,7 +44,7 @@ export default function ConversationList() {
           // </div>
         ))}
       </div>
-      {current && <MessageBox/>}
+      {current && <MessageBox current={current}/>}
     </div>
   )
 }

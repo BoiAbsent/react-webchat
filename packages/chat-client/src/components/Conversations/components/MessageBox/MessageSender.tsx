@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-// import io from 'socket.io-client'
-import { useSelector } from 'react-redux'
 
 interface MessageSenderProps {
   userId: number,
@@ -9,13 +7,12 @@ interface MessageSenderProps {
 
 const MessageSender: React.FC<MessageSenderProps> = (props) => {
   const { userId, toId } = props
-  const socket = useSelector<StoreState, SocketIOClient.Socket | void>(state => state.global.socket)
   
   const [ content, setContent ] = useState('')
 
   const sendMsg = () => {
-    if (socket && userId && toId) {
-      socket.emit('send_msg', {
+    if (window.socket && userId && toId) {
+      window.socket.emit('send_msg', {
         to_id: toId,
         from_id: userId,
         content: content,

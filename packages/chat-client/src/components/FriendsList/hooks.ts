@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateFriendsList } from './reducer/action'
-import { post } from '../../utils/fetch'
+import { StoreState } from '@/store/reducers'
+import { updateFriendsList } from './FriendslistSlice'
+// import { post } from '../../utils/fetch'
 
 export const useFetchFriends = () => {
-  const id = useSelector<StoreState, number>(state => state.user.id)
+  const id = useSelector((state: StoreState) => state.user.id)
   const dispatch = useDispatch()
   useEffect(() => {
     // post('/user/friends', {

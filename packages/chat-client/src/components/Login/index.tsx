@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../store/user/action'
+import { setUser } from '../../store/user/userSlice'
 import './style'
 
 export default function Login() {

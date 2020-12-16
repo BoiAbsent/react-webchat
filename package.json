@@ -5,7 +5,7 @@
     "lerna": "^3.22.1"
   },
   "scripts": {
-    "client-dev": "lerna run --scope chat-client start & lerna run --scope chat-server serve",
+    "dev": "lerna run --scope chat-client start & lerna run --scope chat-server serve",
     "start": "lerna run --scope chat-client build & lerna run --scope chat-server serve"
   }
 }

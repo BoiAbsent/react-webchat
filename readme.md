@@ -7,9 +7,9 @@
 + 根目录下 `lerna bootstrap`
 
 ## 开发环境预览
-+ 根目录下 `npm run client-dev`
++ 根目录下 `npm run dev`
 + 访问 [localhost:8888](http://localhost:8888/)
 
-## 生产环境预览
+## 生产环境
 + 根目录下 `npm run start`
 + 访问 [localhost:3333](http://localhost:3333/)

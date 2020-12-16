@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux'
-import user from './user/reducer'
-import global from '../components/Layout/reducer/reducer'
-import conversationStore from '../components/Conversations/reducer/reducer'
-import FrindsListStore from '../components/FriendsList/reducer/reducer'
+import userReducer from './user/userSlice'
+import conversationReducer from '../components/Conversations/ConversationsSlice'
+import FriendsListReduser from '../components/FriendsList/FriendslistSlice'
 
-
-export default combineReducers<StoreState>({
-  user,
-  global,
-  conversationStore,
-  FrindsListStore
+const rootReducer = combineReducers({
+  user: userReducer,
+  conversations: conversationReducer,
+  friends: FriendsListReduser
 })
+export default rootReducer
+
+console.log(rootReducer)
+
+export type StoreState = ReturnType<typeof rootReducer>

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
+import { StoreState } from './store/reducers'
 import Loading from './components/Loading'
 import Layout from './components/Layout'
 import Login from './components/Login'
-// import { setUser } from './store/user/action'
 import './App.css'
 
 function useCheckSigin() {
   const [checking, setChecking] = useState(false)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +32,7 @@ function useCheckSigin() {
 }
 
 const App: React.FC = () => {
-  const user:User  = useSelector<StoreState>(store => store.user)
+  const user = useSelector((store: StoreState) => store.user)
   const checking = useCheckSigin()
   return (
     <>

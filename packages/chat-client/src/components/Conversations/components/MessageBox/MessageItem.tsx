@@ -1,4 +1,5 @@
 import React from 'react'
+import { Message } from '@/components/Conversations/ConversationsSlice'
 
 interface MessageItemProps {
   mateName: string,

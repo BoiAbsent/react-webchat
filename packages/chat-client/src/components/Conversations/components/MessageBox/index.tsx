@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import ReactDom from 'react-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { StoreState } from '@/store/reducers'
 import MessageItem from './MessageItem'
 import MessageSender from './MessageSender'
 import './style'
 
-const MessageBox: React.FC = () => {
-  const user = useSelector<StoreState, User>(store => store.user)
-  const current = useSelector<StoreState, number>(store => store.conversationStore.current)
-  const conv = useSelector<StoreState, Conversation | void>(store => store.conversationStore.map[String(current)]) || {}
+interface MessageBoxProps {
+  current: Number | void
+}
 
-  const { mate_id, messages = [] } = conv as Conversation
+const MessageBox: React.FC<MessageBoxProps> = ({current}) => {
+  const user = useSelector((store: StoreState) => store.user)
+  // Stale Props: 可能会出现，但是即使 useSelector 先于 current 更新之前执行，current 更新后依然会 reRender，不影响页面展示
+  // Zombie Children: 未来支持删除聊天的功能后可能出现，但是 tore.conversations.map 一定存在，所以 useSelector 内不会报错
+  const conv = useSelector((store: StoreState) => store.conversations.map[String(current)]) || { mate_id: 0, messages: [] }
+
+  const { mate_id, messages = [] } = conv
   const { id, name, avator } = user
-  const mate = useSelector<StoreState, User>(store => store.FrindsListStore[mate_id]) || {}
+  const mate = useSelector((store: StoreState) => store.friends[mate_id]) || {}
   const { name: mate_name, avator: mate_avator } = mate
 
   const [ targetDom, setTargetDom ] = useState(null)
