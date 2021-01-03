@@ -1,19 +1,19 @@
 import React from 'react'
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import io from 'socket.io-client';
 import { Message, sendMessage, receiveMessage } from '../Conversations/ConversationsSlice'
 import Nav from '../Nav'
 import ConversationList from '../Conversations'
 import FriendsList from '../FriendsList'
 import Search from '../Search'
-import { StoreState } from '@/store/reducers'
+import { useUser } from '@/store/user/hooks'
 import { useFetchFriends } from '../FriendsList/hooks'
 import './style'
 
 export default function Layout() {
   const dispatch = useDispatch()
-  const id = useSelector((state: StoreState) => state.user.id)
+  const { id } = useUser()
   useFetchFriends()
   React.useEffect(() => {
     window.socket = io('/', {
@@ -23,7 +23,6 @@ export default function Layout() {
       id
     })
     window.socket.on('recv_msg',(data: Message)=>{
-      console.log('recv_msg',data)
       let action = data.to_id == id ? receiveMessage : (data.from_id == id ? sendMessage : null)
       if (action) {
         dispatch(action(data))

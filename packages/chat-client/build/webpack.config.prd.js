@@ -10,6 +10,9 @@ module.exports = {
   mode: 'production',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css'],
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
   },
   plugins: [
     new httpWebpackPlugin({

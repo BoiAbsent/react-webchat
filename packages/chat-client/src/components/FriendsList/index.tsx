@@ -1,17 +1,18 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useHistory } from "react-router-dom";
-import { StoreState } from '@/store/reducers'
-import { Friends } from '@/components/FriendsList/FriendslistSlice'
+import { useFriendsList } from '@/components/FriendsList/hooks'
+import { useUser } from '@/store/user/hooks'
 import { updateCurrent } from '../Conversations/ConversationsSlice'
 import { useFetchFriends } from './hooks'
+import './style'
 
 const FriendsList: React.FC = () => {
   useFetchFriends()
   const history = useHistory()
   const dispatch = useDispatch()
-  const id = useSelector((state: StoreState) => state.user.id)
-  const friends = useSelector((state: StoreState) => state.friends)
+  const { id } = useUser()
+  const friends = useFriendsList()
   const friendsList = Object.keys(friends).filter(f => f !== String(id)).sort((a, b) => friends[a].name.localeCompare(friends[b].name))
 
 
@@ -24,8 +25,10 @@ const FriendsList: React.FC = () => {
             dispatch(updateCurrent(Number(f)))
             history.push('/conversation')
           }}
+          className="friend-item"
         >
-          {friends[f].name}
+          <div className="friend-item-avator">{friends[f].name}</div>
+          <div className="friend-item-name">{friends[f].name}</div>
         </div>
       ))}
     </div>

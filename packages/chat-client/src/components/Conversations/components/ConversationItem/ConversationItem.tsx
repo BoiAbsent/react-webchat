@@ -1,7 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { StoreState } from '@/store/reducers'
-import { User } from '@/store/user/userSlice'
+import { useDispatch } from 'react-redux'
+import { useFriend } from '@/components/FriendsList/hooks'
 import { updateCurrent } from '../../ConversationsSlice'
 import './ConversationItem.css'
 
@@ -15,10 +14,7 @@ interface ConversationItemProps {
 
 const ConversationItem: React.FC<ConversationItemProps> = (props) => {
   const { id, msg, time, unread, current } = props
-  // friends 和 conversations 独立，不存在 Stale Props 和 Zombie Children 的问题
-  const mate = useSelector((state: StoreState) => state.friends[id], (newValue, oldValue) => {
-    return newValue.name === oldValue.name && newValue.avator === oldValue.avator
-  }) || {name: '', avator: ''}
+  const mate = useFriend(id)
   const { name, avator } = mate
 
   const dispatch = useDispatch() 

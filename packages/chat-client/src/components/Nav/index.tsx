@@ -1,12 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { StoreState } from '@/store/reducers'
-import { User } from '@/store/user/userSlice'
+import { useUser } from '@/store/user/hooks'
 import './style'
 
 const Nav:React.FC =  () => {
-  const user  = useSelector((state: StoreState) => state.user)
+  const user  = useUser()
   return  (
     <div className="nav">
       <div className="nav-name">{user.name}</div>

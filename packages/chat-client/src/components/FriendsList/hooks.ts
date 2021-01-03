@@ -1,21 +1,11 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { StoreState } from '@/store/reducers'
 import { updateFriendsList } from './FriendslistSlice'
-// import { post } from '../../utils/fetch'
 
 export const useFetchFriends = () => {
-  const id = useSelector((state: StoreState) => state.user.id)
   const dispatch = useDispatch()
   useEffect(() => {
-    // post('/user/friends', {
-    //   id: id
-    // }).then(res => {
-    //   const { code, data } = res
-    //   if (code === 200) {
-    //     dispatch(updateFriendsList(data))
-    //   }
-    // })
     setTimeout(() => {
       dispatch(updateFriendsList({
         '101': {
@@ -46,4 +36,12 @@ export const useFetchFriends = () => {
       }))
     }, 500)
   }, []);
+}
+
+export const useFriendsList = () => {
+  return useSelector((state: StoreState) => state.friends)
+}
+
+export const useFriend = (id?: number | string) => {
+  return useSelector((state: StoreState) => state.friends[id], shallowEqual) || {name: '', avator: '', id: 0}
 }

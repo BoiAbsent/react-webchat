@@ -9,6 +9,9 @@ module.exports = {
   mode: 'development',
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css'],
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
   },
   plugins: [
     new httpWebpackPlugin({
@@ -21,14 +24,6 @@ module.exports = {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         loader: 'ts-loader'
-        // loader: 'babel-loader',
-        // options: {
-        //   plugins: [
-        //     [
-        //       '@babel/plugin-transform-react-jsx'
-        //     ]
-        //   ]
-        // },
       },
       {
         test: /\.css$/,

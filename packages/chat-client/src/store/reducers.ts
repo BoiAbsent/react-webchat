@@ -10,6 +10,4 @@ const rootReducer = combineReducers({
 })
 export default rootReducer
 
-console.log(rootReducer)
-
 export type StoreState = ReturnType<typeof rootReducer>
