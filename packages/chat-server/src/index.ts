@@ -27,7 +27,6 @@ const msgs:{[propName: string]: Message} = {}
 
 
 io.on('connection', (socket: any) => {
-  console.log('connection', socket.id)
   socket.on('init_link', (data:any) => {
     mapId2Socket[String(data.id)] = socket.id
     sockets[socket.id] = socket
@@ -41,17 +40,12 @@ io.on('connection', (socket: any) => {
     }
     msgs[msg_id] = msg
     if (mapId2Socket[to_id] && sockets[mapId2Socket[to_id]]) {
-      console.log('通知接收方')
       sockets[mapId2Socket[to_id]].emit('recv_msg', msg)
     }
     if (mapId2Socket[from_id] && sockets[mapId2Socket[from_id]]) {
-      console.log('通知发送方')
       sockets[mapId2Socket[from_id]].emit('recv_msg', msg)
     }
   });
-  // socket.emit('recv_msg', {
-  //   data: '666'
-  // });
 });
 
 
